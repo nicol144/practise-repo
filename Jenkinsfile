@@ -1,35 +1,38 @@
 pipeline {
     agent any
-
     stages {
-        stage('Clone Repository bro111111111') {
+        stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/nicol144/practise-repo.git'
+                checkout scm
             }
         }
-
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("adi144/your-webapp-image:latest")
+                    sh 'docker build -t adi144/your-webapp-image:latest .'
                 }
             }
         }
-
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', '6b086e3f-5dbb-42fb-a7c0-150fe32fe0b0') {
-                        dockerImage.push()
+                    withDockerRegistry([credentialsId: 'dockerhub-credentials-id', url: 'https://registry.hub.docker.com']) {
+                        sh 'docker push adi144/your-webapp-image:latest'
                     }
                 }
             }
         }
-
         stage('Deploy to Kubernetes') {
             steps {
-                sshagent(['ac249d92-3f02-466e-a7c4-a09777d31a5b']) {
-                    sh 'ansible-playbook -i ~/ansible/inventory.ini ~/ansible/1.yml'
+                sshagent([SSH_CREDENTIALS_ID]) {
+                    script {
+                        // Copy Ansible playbook and inventory from remote server
+                        sh 'scp -i ~/devops.pem ubuntu@:18.232.66.30 ~/ansible/1.yml /var/lib/jenkins/ansible/1.yml'
+                        sh 'scp -i ~/devops.pem ubuntu@:18.232.66.30 ~/ansible/inventory.ini /var/lib/jenkins/ansible/inventory.ini'
+                        
+                        // Execute Ansible playbook
+                        sh 'ansible-playbook -i /var/lib/jenkins/ansible/inventory.ini /var/lib/jenkins/ansible/1.yml'
+                    }
                 }
             }
         }
