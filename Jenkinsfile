@@ -13,11 +13,11 @@ pipeline {
                 }
             }
         }
-        stage('Push Docker Image') {
+          stage('Push Docker Image') {
             steps {
                 script {
-                    withDockerRegistry([credentialsId: '6b086e3f-5dbb-42fb-a7c0-150fe32fe0b0', url: 'https://registry.hub.docker.com']) {
-                        sh 'docker push adi144/your-webapp-image:latest'
+                    docker.withRegistry('https://registry.hub.docker.com', '6b086e3f-5dbb-42fb-a7c0-150fe32fe0b0') {
+                        dockerImage.push()
                     }
                 }
             }
