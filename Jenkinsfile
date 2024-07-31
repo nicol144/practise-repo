@@ -32,7 +32,7 @@ pipeline {
                 sshagent(['ac249d92-3f02-466e-a7c4-a09777d31a5b']) {
                     script {
                         // Run Ansible playbook directly on the remote server
-                        sh 'ssh -o StrictHostKeyChecking=no ubuntu@18.232.66.30 "ansible-playbook -i ~/ubuntu/ansible/inventory.ini ~/ubuntu/ansible/1.yml"'
+                        sh 'ssh -o StrictHostKeyChecking=no ubuntu@18.232.66.30 "ansible-playbook -i ~/ansible/inventory.ini ~/ansible/1.yml"'
                     }
                 }
             }
