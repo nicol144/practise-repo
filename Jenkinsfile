@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                sshagent([SSH_CREDENTIALS_ID]) {
+                sshagent([ac249d92-3f02-466e-a7c4-a09777d31a5b]) {
                     script {
                         // Copy Ansible playbook and inventory from remote server
                         sh 'scp -i ~/devops.pem ubuntu@18.232.66.30:~/ansible/1.yml /var/lib/jenkins/ansible/1.yml'
