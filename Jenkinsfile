@@ -29,7 +29,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sshagent(['ac249d92-3f02-466e-a7c4-a09777d31a5b']) {
-                    sh 'ansible-playbook -i ~/ansible/inventory.ini ~/ansible/deploy_app.yml'
+                    sh 'ansible-playbook -i ~/ansible/inventory.ini ~/ansible/1.yml'
                 }
             }
         }
