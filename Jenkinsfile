@@ -21,7 +21,7 @@ pipeline {
                     def dockerImage = docker.image('adi144/your-webapp-image:latest')
                     
                     // Push Docker image to Docker Hub
-                    docker.withRegistry('https://registry.hub.docker.com', '6b086e3f-5dbb-42fb-a7c0-150fe32fe0b0') {
+                    docker.withRegistry('https://index.docker.io/v1/', '6b086e3f-5dbb-42fb-a7c0-150fe32fe0b0') {
                         dockerImage.push('latest')
                     }
                 }
@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                sshagent([ac249d92-3f02-466e-a7c4-a09777d31a5b]) {
+                sshagent(['ac249d92-3f02-466e-a7c4-a09777d31a5b']) {
                     script {
                         // Copy Ansible playbook and inventory from remote server
                         sh 'scp -i ~/devops.pem ubuntu@18.232.66.30:~/ansible/1.yml /var/lib/jenkins/ansible/1.yml'
