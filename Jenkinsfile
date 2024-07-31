@@ -34,7 +34,7 @@ pipeline {
                         // Run Ansible playbook directly on the remote server
                         sh '''
                             ssh -o StrictHostKeyChecking=no ubuntu@18.232.66.30 
-                                ansible-playbook -i /path/to/inventory.ini /path/to/1.yml
+                                ansible-playbook -i ~/ubuntu/ansible/inventory.ini ~/ubuntu/ansible/1.yml
                             
                         '''
                     }
