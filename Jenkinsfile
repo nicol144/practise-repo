@@ -31,12 +31,12 @@ pipeline {
             steps {
                 sshagent(['ac249d92-3f02-466e-a7c4-a09777d31a5b']) {
                     script {
-                        // Copy Ansible playbook and inventory from remote server
-                        sh 'scp -i ~/devops.pem ubuntu@18.232.66.30:~/ansible/1.yml /var/lib/jenkins/ansible/1.yml'
-                        sh 'scp -i ~/devops.pem ubuntu@18.232.66.30:~/ansible/inventory.ini /var/lib/jenkins/ansible/inventory.ini'
-                        
-                        // Execute Ansible playbook
-                        sh 'ansible-playbook -i /var/lib/jenkins/ansible/inventory.ini /var/lib/jenkins/ansible/1.yml'
+                        // Run Ansible playbook directly on the remote server
+                        sh '''
+                            ssh -i ~/devops.pem ubuntu@18.232.66.30 << 'EOF'
+                                ansible-playbook -i ~/ubuntu/ansible/invemtory.ini ~/ubuntu/ansible/1.yml
+                            EOF
+                        '''
                     }
                 }
             }
