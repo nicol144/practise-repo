@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repository bro') {
+        stage('Clone Repository bro1') {
             steps {
                 git 'https://github.com/nicol144/practise-repo.git'
             }
